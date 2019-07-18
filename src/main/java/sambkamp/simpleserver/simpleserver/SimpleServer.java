@@ -21,75 +21,75 @@ public final class SimpleServer extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        System.out.println("[MCDEV] plug-in started");
+        System.out.println("[SimpleServer] plug-in started");
         getServer().getPluginManager().registerEvents(join, this);
         getServer().getPluginManager().registerEvents(new shopBuild(this), this);
         getServer().getPluginManager().registerEvents(new spawnBreak(), this);
         getServer().getPluginManager().registerEvents(new signs(), this);
-        System.out.println("[MCDEV] listeners loaded");
+        System.out.println("[SimpleServer] listeners loaded");
         this.getCommand("helpme").setExecutor(commandClass);
         this.getCommand("makeshop").setExecutor(commandClass);
         this.getCommand("sellids").setExecutor(commandClass);
 
-        Path path =  Paths.get("MCDEV/");
-        Path file = Paths.get("MCDEV/conf.txt");
-        Path players = Paths.get("MCDEV/players.json");
+        Path path =  Paths.get("SimpleServer/");
+        Path file = Paths.get("SimpleServer/conf.txt");
+        Path players = Paths.get("SimpleServer/players.txt");
 
         if (Files.exists(path)) {
-            System.out.println("[MCDEV] Already found MCDEV folder, skipping...");
+            System.out.println("[SimpleServer] Already found SimpleServer folder, skipping...");
             try {
                 setupMeta();
             }catch (Exception AMP){
-                System.out.println("[MCDEV] Error while loading metadata: " + AMP);
+                System.out.println("[SimpleServer] Error while loading metadata: " + AMP);
             }
             return;
         }else {
 
-            boolean success = (new File("MCDEV")).mkdirs();
+            boolean success = (new File("SimpleServer")).mkdirs();
             if (!success) {
-                System.out.println("[MCDEV] Could not create MCDEV folder. some functionality will be lost.");
+                System.out.println("[SimpleServer] Could not create SimpleServer folder. some functionality will be lost.");
             } else {
 
                 if (Files.exists(file)) {
-                    System.out.println("[MCDEV] Already found conf.txt, skipping...");
+                    System.out.println("[SimpleServer] Already found conf.txt, skipping...");
 
                 }else {
                     try {
-                        PrintWriter writer = new PrintWriter("MCDEV/conf.txt", "UTF-8");
+                        PrintWriter writer = new PrintWriter("SimpleServer/conf.txt", "UTF-8");
                         writer.close();
-                        System.out.println("[MCDEV] created MCDEV/conf.txt");
+                        System.out.println("[SimpleServer] created SimpleServer/conf.txt");
                     } catch (Exception e) {
-                        System.out.println("[MCDEV] Could not create conf.txt: " + e);
+                        System.out.println("[SimpleServer] Could not create conf.txt: " + e);
                     }
                 }
                 if (Files.exists(players)) {
-                    System.out.println("[MCDEV] Already found players.json, skipping...");
+                    System.out.println("[SimpleServer] Already found players.txt, skipping...");
 
                 }else {
                     try {
-                        PrintWriter writer = new PrintWriter("MCDEV/players.json", "UTF-8");
+                        PrintWriter writer = new PrintWriter("SimpleServer/players.txt", "UTF-8");
                         writer.close();
-                        System.out.println("[MCDEV] created MCDEV/players.json");
+                        System.out.println("[SimpleServer] created SimpleServer/players.txt");
                     } catch (Exception e) {
-                        System.out.println("[MCDEV] Could not create players.json: " + e);
+                        System.out.println("[SimpleServer] Could not create players.txt: " + e);
                     }
                 }
 
             }
         }
-        System.out.println("[MCDEV] Fully loaded");
+        System.out.println("[SimpleServer] Fully loaded");
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        System.out.println("[MCDEV] plugin exiting");
+        System.out.println("[SimpleServer] plugin exiting");
     }
 
     public void setupMeta() throws IOException {
-        String contents = new String(Files.readAllBytes(Paths.get("MCDEV/conf.txt")));
+        String contents = new String(Files.readAllBytes(Paths.get("SimpleServer/conf.txt")));
         if (contents.equals("")){
-            System.out.println("[MCDEV] conf.txt is empty, skipping...");
+            System.out.println("[SimpleServer] conf.txt is empty, skipping...");
             return;
         }
         String[] iterator = contents.split("\n");

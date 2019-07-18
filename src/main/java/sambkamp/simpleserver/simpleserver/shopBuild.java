@@ -284,17 +284,17 @@ public class shopBuild implements Listener {
 
 
         try {
-            String contents = new String(Files.readAllBytes(Paths.get("MCDEV/conf.txt")));
+            String contents = new String(Files.readAllBytes(Paths.get("SimpleServer/conf.txt")));
             String jsonText = contents + uuid + "," + startX + "," + startY + "," + startZ + "\n";
 
             //TODO: make this more efficient by not creating a new file every time.
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter("MCDEV/conf.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("SimpleServer/conf.txt"));
             writer.write(jsonText);
             writer.close();
 
         }catch(Exception I_AM_GAY) {
-            System.out.print("[MCDEV] something went wrong while saving the place: " + I_AM_GAY);
+            System.out.print("[SimpleServer] something went wrong while saving the place: " + I_AM_GAY);
         }
 
 
