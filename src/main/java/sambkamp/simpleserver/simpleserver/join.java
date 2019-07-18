@@ -37,7 +37,7 @@ public class join implements Listener {
 
             itemStack.setItemMeta(meta);
             inventory.addItem(itemStack);
-            
+
         }catch (Exception HEH){
             System.out.println("something went wrong with getName() in jon.java: " + HEH);
         }
@@ -51,7 +51,7 @@ public class join implements Listener {
             String contents = new String(Files.readAllBytes(Paths.get("SimpleServer/players.txt")));
             String jsonText = contents + uuid + "\n";
 
-            //TODO: make this more efficient by not creating a new file every time.
+            //TODO: make this more efficient by not creating a new file every time. See shopBuild.java (290,15)
 
             BufferedWriter writer = new BufferedWriter(new FileWriter("SimpleServer/players.txt"));
             writer.write(jsonText);

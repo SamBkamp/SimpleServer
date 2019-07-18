@@ -287,7 +287,7 @@ public class shopBuild implements Listener {
             String contents = new String(Files.readAllBytes(Paths.get("SimpleServer/conf.txt")));
             String jsonText = contents + uuid + "," + startX + "," + startY + "," + startZ + "\n";
 
-            //TODO: make this more efficient by not creating a new file every time.
+            //TODO: make this more efficient by not creating a new file every time. See join.java (54,15)
 
             BufferedWriter writer = new BufferedWriter(new FileWriter("SimpleServer/conf.txt"));
             writer.write(jsonText);
