@@ -1,0 +1,16 @@
+name: SimpleServer
+version: ${project.version}
+main: sambkamp.simpleserver.simpleserver.SimpleServer
+api-version: 1.13
+authors: [SamBkamp]
+website: www.github.com/SamBkamp
+commands:
+  helpme:
+    description: shows the help page
+    usage: /helpme
+  makeshop:
+    description: gives the player something to make a shop with
+    usage: /makeshop
+  sellids:
+    description: list of sell ids
+    usage: /sellids
