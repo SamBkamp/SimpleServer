@@ -1,21 +1,16 @@
 package sambkamp.simpleserver.simpleserver;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class commandClass implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(command.getName().equalsIgnoreCase("helpme")){
             if(args.length < 1) {
-                sender.sendMessage(ChatColor.AQUA + "Welcome to Bkamp's smp server \n /helpme 1 for general rules \n /helpme 2 for help with trading posts \n /helpme 3 for help with Buy and Sell signs");
+                sender.sendMessage(ChatColor.AQUA + "Welcome to Bkamp's smp server \n /helpme 1 for general rules \n /helpme 2 for help with trading posts \n /helpme 3 for help with Buy and Sell signs \n /credits for credits and source code");
                 return true;
             } else if (args[0].equals("1")) {
                 sender.sendMessage(ChatColor.YELLOW + "This smp is similar in style to rust. So pvp is allowed in most areas (except for spawn and trading posts) \n and you can team up with other players. Trading is allowed however trading posts are encouraged");
@@ -30,17 +25,8 @@ public class commandClass implements CommandExecutor {
                 sender.sendMessage("please attach valid arguments to your command");
                 return true;
             }
-        } else if (command.getName().equalsIgnoreCase("makeshop")){
-            Player player = (Player) sender;
-            sender.sendMessage(ChatColor.YELLOW + "here is a shop builder");
-
-            ItemStack itemStack = new ItemStack(Material.OAK_FENCE, 1);
-            ItemMeta meta = itemStack.getItemMeta();
-            meta.setDisplayName(ChatColor.YELLOW + "shop builder");
-            PlayerInventory inventory = player.getInventory();
-
-            itemStack.setItemMeta(meta);
-            inventory.addItem(itemStack);
+        } else if (command.getName().equalsIgnoreCase("credits")){
+            sender.sendMessage(ChatColor.YELLOW + "This plugin was developed by SamBkamp, you can see the sourcecode at: \n github.com/SamBkamp/SimpleServer");
         }else if (command.getName().equalsIgnoreCase("sellids")) {
             sender.sendMessage(ChatColor.YELLOW + "sell ids: \n Iron ingot = IRON_INGOT \n Gold Ingot = GOLD_INGOT \n Diamonds = DIAMOND \n Coal = COAL \n Coal Block = COAL_BLOCK");
         }

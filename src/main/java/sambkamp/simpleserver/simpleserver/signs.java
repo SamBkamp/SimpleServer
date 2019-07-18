@@ -3,6 +3,7 @@ package sambkamp.simpleserver.simpleserver;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,9 +15,16 @@ public class signs implements Listener {
     @EventHandler
     public void sign(PlayerInteractEvent e) {
 
-        if(!e.getClickedBlock().getType().equals(Material.OAK_SIGN) || e.getClickedBlock().getType().equals(Material.OAK_WALL_SIGN)) {
+        try {
+            e.getClickedBlock().getType();
+        }catch (Exception E){
             return;
         }
+
+        if(!e.getClickedBlock().getType().equals(Material.OAK_SIGN) || !e.getClickedBlock().getType().equals(Material.OAK_WALL_SIGN)) {
+            return;
+        }
+
 
         Sign sign = (Sign) e.getClickedBlock().getState();
         String amp[] = ChatColor.stripColor(sign.getLine(0)).split(" - ");
@@ -24,21 +32,22 @@ public class signs implements Listener {
         if (!amp[0].equalsIgnoreCase("[T]")) {
             return;
         }
-
         String string  = ChatColor.stripColor(sign.getLine(1));
         String[] items = string.split(", ");
         String string2  = ChatColor.stripColor(sign.getLine(2));
         String[] items1 = string2.split(", ");
 
-        if (!e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.valueOf(items[0]))){
-            e.getPlayer().getInventory().addItem(new ItemStack(Material.valueOf(items[0]), Integer.parseInt(sign.getLine(3).split("/")[1])));
-            sign.setLine(3, sign.getLine(3).split("/")[0] + "/0");
-            sign.update();
-            e.getPlayer().sendMessage(ChatColor.GREEN + "Profits gathered");
-            return;
-        }
 
         if (e.getPlayer().getName().equals(amp[1])){
+
+            if (!e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.valueOf(items[0]))){
+                e.getPlayer().getInventory().addItem(new ItemStack(Material.valueOf(items[0]), Integer.parseInt(sign.getLine(3).split("/")[1])));
+                sign.setLine(3, sign.getLine(3).split("/")[0] + "/0");
+                sign.update();
+                e.getPlayer().sendMessage(ChatColor.GREEN + "Profits gathered");
+                return;
+            }
+
             if(!e.getPlayer().getInventory().contains(Material.valueOf(items[0]))){
                 e.getPlayer().sendMessage(ChatColor.RED + "You do not have the item to add to the stock");
                 return;
@@ -73,6 +82,7 @@ public class signs implements Listener {
 
         for (ItemStack item : e.getPlayer().getInventory().getContents()) {
             if (item != null && item.getType().equals(Material.valueOf(items1[0]))){
+
                 if (item.getAmount() < Integer.parseInt(items1[1])){
                     e.getPlayer().sendMessage(ChatColor.RED + "You do not have enough items to sell");
                     return;
@@ -84,6 +94,7 @@ public class signs implements Listener {
                     amount2++;
                     sign.setLine(3, Integer.toString(amount) + "/" + Integer.toString(amount2));
                     sign.update();
+                    e.getPlayer().sendMessage(ChatColor.GREEN + "Trade successful!");
                     break;
                 }
             }

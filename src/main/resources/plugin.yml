@@ -14,3 +14,6 @@ commands:
   sellids:
     description: list of sell ids
     usage: /sellids
+  credits:
+    description: credits and source code
+    usage: /credits

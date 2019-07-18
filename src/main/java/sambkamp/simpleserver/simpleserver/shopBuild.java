@@ -23,7 +23,6 @@ public class shopBuild implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
-        e.getPlayer().sendMessage(e.getBlock().getType().toString());
         if (e.getBlock().getType().equals(Material.OAK_WALL_SIGN) || e.getBlock().getType().equals(Material.OAK_SIGN)){
             Sign sign = (Sign) e.getBlock().getState();
             String amp[] = sign.getLine(0).split(" - ");
