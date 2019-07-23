@@ -30,6 +30,8 @@ public final class SimpleServer extends JavaPlugin {
         this.getCommand("helpme").setExecutor(commandClass);
         this.getCommand("makeshop").setExecutor(commandClass);
         this.getCommand("sellids").setExecutor(commandClass);
+        this.getCommand("credits").setExecutor(commandClass);
+        this.getCommand("spawn").setExecutor(commandClass);
 
         Path path =  Paths.get("SimpleServer/");
         Path file = Paths.get("SimpleServer/conf.txt");

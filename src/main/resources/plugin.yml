@@ -17,3 +17,6 @@ commands:
   credits:
     description: credits and source code
     usage: /credits
+  spawn:
+    description: tps players back to spawn
+    usage: /spawn

@@ -1,9 +1,11 @@
 package sambkamp.simpleserver.simpleserver;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class commandClass implements CommandExecutor {
     @Override
@@ -29,6 +31,13 @@ public class commandClass implements CommandExecutor {
             sender.sendMessage(ChatColor.YELLOW + "This plugin was developed by SamBkamp, you can see the sourcecode at: \n github.com/SamBkamp/SimpleServer");
         }else if (command.getName().equalsIgnoreCase("sellids")) {
             sender.sendMessage(ChatColor.YELLOW + "sell ids: \n Iron ingot = IRON_INGOT \n Gold Ingot = GOLD_INGOT \n Diamonds = DIAMOND \n Coal = COAL \n Coal Block = COAL_BLOCK");
+        }else if(command.getName().equalsIgnoreCase("spawn")){
+            Player player = (Player) sender;
+            Location location = null;
+            location.setX(140);
+            location.setY(66);
+            location.setZ(-130);
+            player.teleport(location);
         }
         return true;
     }
