@@ -18,19 +18,17 @@ public class signs implements Listener {
         try {
             e.getClickedBlock().getType();
         }catch (Exception E){
-            System.out.println("Some wackness has happened at te signs thing");
             return;
         }
 
-        if(!e.getClickedBlock().getType().equals(Material.OAK_SIGN) || !e.getClickedBlock().getType().equals(Material.OAK_WALL_SIGN)) {
+        if(e.getClickedBlock().getType().equals(Material.OAK_SIGN) || e.getClickedBlock().getType().equals(Material.OAK_WALL_SIGN)) {
+        }else {
             return;
         }
 
 
         Sign sign = (Sign) e.getClickedBlock().getState();
         String amp[] = ChatColor.stripColor(sign.getLine(0)).split(" - ");
-
-        e.getPlayer().sendMessage(ChatColor.RED + "here");
 
         if (!amp[0].equalsIgnoreCase("[T]")) {
             return;
@@ -42,7 +40,6 @@ public class signs implements Listener {
 
 
         if (e.getPlayer().getName().equals(amp[1])){
-            e.getPlayer().sendMessage(ChatColor.RED + "here 2");
 
             if (!e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.valueOf(items[0]))){
                 e.getPlayer().getInventory().addItem(new ItemStack(Material.valueOf(items[0]), Integer.parseInt(sign.getLine(3).split("/")[1])));
@@ -93,9 +90,9 @@ public class signs implements Listener {
                 }else {
                     item.setAmount(item.getAmount() - Integer.parseInt(items1[1]));
                     int amount = Integer.parseInt(ChatColor.stripColor(sign.getLine(3)).split("/")[0]);
-                    amount--;
+                    amount = amount - Integer.parseInt(items[1]);
                     int amount2 = Integer.parseInt(ChatColor.stripColor(sign.getLine(3)).split("/")[1]);
-                    amount2++;
+                    amount2 = amount2 + Integer.parseInt(items1[1]);
                     sign.setLine(3, Integer.toString(amount) + "/" + Integer.toString(amount2));
                     sign.update();
                     e.getPlayer().sendMessage(ChatColor.GREEN + "Trade successful!");

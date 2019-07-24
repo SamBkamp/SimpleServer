@@ -23,9 +23,11 @@ public class shopBuild implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
+        e.getPlayer().sendMessage(e.getBlock().getType().toString());
         if (e.getBlock().getType().equals(Material.OAK_WALL_SIGN) || e.getBlock().getType().equals(Material.OAK_SIGN)){
             Sign sign = (Sign) e.getBlock().getState();
             String amp[] = sign.getLine(0).split(" - ");
+            e.getPlayer().sendMessage("heh ampsquad");
             if (!amp[0].equals("[T]")){
                 return;
             }
@@ -273,9 +275,6 @@ public class shopBuild implements Listener {
             Location block = e.getBlock().getLocation().add(-4, 3, -4);
             block.getBlock().setType(Material.LANTERN);
             block.getBlock().setMetadata("heh", new FixedMetadataValue(plugin, e.getPlayer().getUniqueId().toString()));
-        }
-        if (e.getBlock().getType().equals(Material.OAK_SIGN) || e.getBlock().getType().equals(Material.OAK_WALL_SIGN) ) {
-            e.getPlayer().sendMessage("heh");
         }
     }
 

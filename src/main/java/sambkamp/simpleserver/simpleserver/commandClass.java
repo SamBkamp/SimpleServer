@@ -33,10 +33,7 @@ public class commandClass implements CommandExecutor {
             sender.sendMessage(ChatColor.YELLOW + "sell ids: \n Iron ingot = IRON_INGOT \n Gold Ingot = GOLD_INGOT \n Diamonds = DIAMOND \n Coal = COAL \n Coal Block = COAL_BLOCK");
         }else if(command.getName().equalsIgnoreCase("spawn")){
             Player player = (Player) sender;
-            Location location = null;
-            location.setX(140);
-            location.setY(66);
-            location.setZ(-130);
+            Location location = new Location(player.getWorld(), 140, 68, -130);
             player.teleport(location);
         }
         return true;
