@@ -23,17 +23,6 @@ public class shopBuild implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
-        if (e.getBlock().getType().equals(Material.OAK_WALL_SIGN) || e.getBlock().getType().equals(Material.OAK_SIGN)){
-            Sign sign = (Sign) e.getBlock().getState();
-            String amp[] = sign.getLine(0).split(" - ");
-            if (!amp[0].equals("[T]")){
-                return;
-            }
-            sign.setLine(0, ChatColor.LIGHT_PURPLE + sign.getLine(0));
-            sign.update();
-            e.getPlayer().sendMessage(ChatColor.AQUA + "Shop set!");
-            return;
-        }
 
         if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.YELLOW + "shop builder")) {
             //TODO: make this more efficient (less for loops/less lines of code)
@@ -273,9 +262,6 @@ public class shopBuild implements Listener {
             Location block = e.getBlock().getLocation().add(-4, 3, -4);
             block.getBlock().setType(Material.LANTERN);
             block.getBlock().setMetadata("heh", new FixedMetadataValue(plugin, e.getPlayer().getUniqueId().toString()));
-        }
-        if (e.getBlock().getType().equals(Material.OAK_SIGN) || e.getBlock().getType().equals(Material.OAK_WALL_SIGN) ) {
-            e.getPlayer().sendMessage("heh");
         }
     }
 
