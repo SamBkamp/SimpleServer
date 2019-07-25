@@ -23,19 +23,6 @@ public class shopBuild implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
-        e.getPlayer().sendMessage(e.getBlock().getType().toString());
-        if (e.getBlock().getType().equals(Material.OAK_WALL_SIGN) || e.getBlock().getType().equals(Material.OAK_SIGN)){
-            Sign sign = (Sign) e.getBlock().getState();
-            String amp[] = sign.getLine(0).split(" - ");
-            e.getPlayer().sendMessage("heh ampsquad");
-            if (!amp[0].equals("[T]")){
-                return;
-            }
-            sign.setLine(0, ChatColor.LIGHT_PURPLE + sign.getLine(0));
-            sign.update();
-            e.getPlayer().sendMessage(ChatColor.AQUA + "Shop set!");
-            return;
-        }
 
         if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.YELLOW + "shop builder")) {
             //TODO: make this more efficient (less for loops/less lines of code)
