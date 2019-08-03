@@ -25,7 +25,25 @@ public class spawnBreak implements Listener {
         if (blockX >= 120 && blockX <= 161 && blockZ <= -113 && blockZ >= -153) {
             if (!e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
                 e.setCancelled(true);
-                e.getPlayer().sendMessage(ChatColor.RED + "you can't break spawn, dickhead");
+                e.getPlayer().sendMessage(ChatColor.RED + "you can't break spawn");
+            }
+        } else if (e.getBlock().getType().equals(Material.OAK_SIGN) || e.getBlock().getType().equals(Material.OAK_WALL_SIGN)) {
+            //Block sign  = e.getBlock();
+            Sign sign = (Sign) e.getBlock().getState();
+            String firstLine = ChatColor.stripColor(sign.getLine(0));
+
+            if (!firstLine.equalsIgnoreCase("[Trade]")) {
+                return;
+            }
+            String firstItem = sign.getLine(1).split(", ")[0];
+            String secondItem = sign.getLine(2).split(", ")[0];
+            int firstItemAmount = Integer.parseInt(sign.getLine(3).split("/")[0]);
+            int secondItemAmount = Integer.parseInt(sign.getLine(3).split("/")[1]);
+            if (firstItemAmount > 0) {
+                e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), new ItemStack(Material.valueOf(firstItem), firstItemAmount));
+            }
+            if (secondItemAmount > 0) {
+                e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), new ItemStack(Material.valueOf(secondItem), secondItemAmount));
             }
         } else if (e.getBlock().hasMetadata("heh")) {
             List<MetadataValue> meta = e.getBlock().getMetadata("heh");
@@ -40,24 +58,8 @@ public class spawnBreak implements Listener {
                 return;
             }
 
-            e.getPlayer().sendMessage(ChatColor.RED + "you can't break this shop sicko");
+            e.getPlayer().sendMessage(ChatColor.RED + "you can't break this shop");
             e.setCancelled(true);
-        } else if (e.getBlock().getType().equals(Material.OAK_SIGN) || e.getBlock().getType().equals(Material.OAK_WALL_SIGN)) {
-            //Block sign  = e.getBlock();
-            Sign sign = (Sign) e.getBlock().getState();
-            if (!sign.getLine(0).contains("[T]")) {
-                return;
-            }
-            String firstItem = sign.getLine(1).split(", ")[0];
-            String secondItem = sign.getLine(2).split(", ")[0];
-            int firstItemAmount = Integer.parseInt(sign.getLine(3).split("/")[0]);
-            int secondItemAmount = Integer.parseInt(sign.getLine(3).split("/")[1]);
-            if (firstItemAmount > 0) {
-                e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), new ItemStack(Material.valueOf(firstItem), firstItemAmount));
-            }
-            if (secondItemAmount > 0) {
-                e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), new ItemStack(Material.valueOf(secondItem), secondItemAmount));
-            }
         }
     }
 

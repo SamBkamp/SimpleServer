@@ -26,7 +26,7 @@ public final class SimpleServer extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new shopBuild(this), this);
         getServer().getPluginManager().registerEvents(new spawnBreak(), this);
         getServer().getPluginManager().registerEvents(new signs(), this);
-        getServer().getPluginManager().registerEvents(new signColor(), this);
+        getServer().getPluginManager().registerEvents(new signColor(this), this);
         System.out.println("[SimpleServer] listeners loaded");
         this.getCommand("helpme").setExecutor(commandClass);
         this.getCommand("makeshop").setExecutor(commandClass);
