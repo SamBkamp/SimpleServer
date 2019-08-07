@@ -6,6 +6,8 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -39,6 +41,9 @@ public class spawnBreak implements Listener {
             String secondItem = sign.getLine(2).split(", ")[0];
             int firstItemAmount = Integer.parseInt(sign.getLine(3).split("/")[0]);
             int secondItemAmount = Integer.parseInt(sign.getLine(3).split("/")[1]);
+            if (!isOwner(e.getBlock(), e.getPlayer())){
+                return;
+            }
             if (firstItemAmount > 0) {
                 e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), new ItemStack(Material.valueOf(firstItem), firstItemAmount));
             }
@@ -46,6 +51,7 @@ public class spawnBreak implements Listener {
                 e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), new ItemStack(Material.valueOf(secondItem), secondItemAmount));
             }
         } else if (e.getBlock().hasMetadata("heh")) {
+            //TODO: refactor to use method #isOwner()
             List<MetadataValue> meta = e.getBlock().getMetadata("heh");
             StringBuffer sb = new StringBuffer("");
             String stringFromTheArrow;
@@ -94,5 +100,17 @@ public class spawnBreak implements Listener {
                 }
             }
         }
+    }
+
+    public boolean isOwner(Block b, Player p){
+        List<MetadataValue> meta = b.getMetadata("heh");
+        StringBuffer sb = new StringBuffer("");
+        String stringFromTheArrow;
+        for (MetadataValue value : meta) {
+            stringFromTheArrow = value.asString();
+            sb.append(stringFromTheArrow);
+        }
+
+        return p.getUniqueId().toString().equals(sb.toString());
     }
 }

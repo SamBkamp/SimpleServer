@@ -45,16 +45,19 @@ public class signs implements Listener {
             sellItem = items[0];
             buyItem = items1[0];
             //this whole alias thing is super jank but so be it
+            //also it doesnt work - Bkamp
 
-            if(items[0].contains("_conc")) {
-                if(!items[0].contains("_concrete")){
-                    sellItem = items[0] + "rete";
+            if(items[0].contains("_CONC")) {
+                e.getPlayer().sendMessage("kinda vibe 1");
+                if(!items[0].contains("_CONCRETE")){
+                    sellItem = items[0] + "RETE";
                 }
             }
 
-            if(items1[0].contains("_conc")) {
-                if(!items1[0].contains("_concrete")){
-                    buyItem = items1[0] + "rete";
+            if(items1[0].contains("_CONC")) {
+                e.getPlayer().sendMessage("kinda vibe 2");
+                if(!items1[0].contains("_CONCRETE")){
+                    buyItem = items1[0] + "RETE";
                 }
             }
 
@@ -68,6 +71,7 @@ public class signs implements Listener {
                 stringFromTheArrow = value.asString();
                 sb.append(stringFromTheArrow);
             }
+            //TODO: refactor to use method #isOwner() from spawnBreak.java
             if (e.getPlayer().getUniqueId().toString().equals(sb.toString())) {
 
                 if (!e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.valueOf(sellItem))) {
