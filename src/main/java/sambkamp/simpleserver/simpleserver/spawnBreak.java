@@ -51,16 +51,7 @@ public class spawnBreak implements Listener {
                 e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), new ItemStack(Material.valueOf(secondItem), secondItemAmount));
             }
         } else if (e.getBlock().hasMetadata("heh")) {
-            //TODO: refactor to use method #isOwner()
-            List<MetadataValue> meta = e.getBlock().getMetadata("heh");
-            StringBuffer sb = new StringBuffer("");
-            String stringFromTheArrow;
-            for (MetadataValue value : meta) {
-                stringFromTheArrow = value.asString();
-                sb.append(stringFromTheArrow);
-            }
-
-            if (e.getPlayer().getUniqueId().toString().equals(sb.toString())) {
+            if (isOwner(e.getBlock(), e.getPlayer())) {
                 return;
             }
 
@@ -72,7 +63,7 @@ public class spawnBreak implements Listener {
     @EventHandler
     public void onExplode(EntityExplodeEvent e) {
         int blockX = e.getLocation().getBlockX();
-        int blockY = e.getLocation().getBlockY();
+        //int blockY = e.getLocation().getBlockY();
         int blockZ = e.getLocation().getBlockZ();
         Block getblock = e.getLocation().getBlock();
         ArrayList<Block> fenceBlocks = new ArrayList<>();
