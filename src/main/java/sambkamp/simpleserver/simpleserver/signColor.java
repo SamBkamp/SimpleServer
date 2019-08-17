@@ -20,6 +20,7 @@ public class signColor implements Listener {
             String amp = e.getLine(0); //sign parsing stuff
             if (!amp.equals("[Trade]")) return;
             e.setLine(0, ChatColor.LIGHT_PURPLE + e.getLine(0));
+            e.setLine(3, "0/0");
             e.getPlayer().sendMessage(ChatColor.AQUA + "Shop set!");
             shopBuild shop = new shopBuild(plugin);
             e.getBlock().setMetadata("heh", new FixedMetadataValue(plugin, e.getPlayer().getUniqueId().toString()));
