@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.omg.CORBA.SystemException;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public final class SimpleServer extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new shopBuild(this), this);
         getServer().getPluginManager().registerEvents(new spawnBreak(), this);
         getServer().getPluginManager().registerEvents(new signs(), this);
-        getServer().getPluginManager().registerEvents(new signColor(), this);
+        getServer().getPluginManager().registerEvents(new signColor(this), this);
         System.out.println("[SimpleServer] listeners loaded");
         this.getCommand("helpme").setExecutor(commandClass);
         this.getCommand("makeshop").setExecutor(commandClass);
@@ -96,10 +97,12 @@ public final class SimpleServer extends JavaPlugin {
             return;
         }
         String[] iterator = contents.split("\n");
+        System.out.println("[SimpleServer] found " + iterator.length + " blocks");
         for (int i = 0; i < iterator.length; i++){
-            String coords = iterator[i];
+            String coords = iterator[i].split("\n")[0];
             String[] cordio = coords.split(",");
-            Block block = Bukkit.getWorld("world").getBlockAt(Integer.parseInt(cordio[1]), Integer.parseInt(cordio[2]), Integer.parseInt(cordio[3]));
+            int cleanlastcoord = Integer.parseInt(cordio[3].replaceAll("\\r", ""));
+            Block block = Bukkit.getWorld("world").getBlockAt(Integer.parseInt(cordio[1]), Integer.parseInt(cordio[2]), cleanlastcoord);
             block.setMetadata("heh", new FixedMetadataValue(this, cordio[0]));
         }
 

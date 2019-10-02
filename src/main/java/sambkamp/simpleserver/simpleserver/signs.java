@@ -1,11 +1,8 @@
 package sambkamp.simpleserver.simpleserver;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -28,34 +25,65 @@ public class signs implements Listener {
 
         try {
             Sign sign = (Sign) e.getClickedBlock().getState();
-            String amp[] = ChatColor.stripColor(sign.getLine(0)).split(" - ");
+            String amp = ChatColor.stripColor(sign.getLine(0));
 
-            if (!amp[0].equalsIgnoreCase("[T]")) {
+            if (!amp.equalsIgnoreCase("[Trade]")) {
                 return;
             }
+
             String string = ChatColor.stripColor(sign.getLine(1));
             String[] items = string.split(", ");
             String string2 = ChatColor.stripColor(sign.getLine(2));
             String[] items1 = string2.split(", ");
 
+            String sellItem;
+            String buyItem;
 
-            if (e.getPlayer().getName().equals(amp[1])) {
+            sellItem = items[0];
+            buyItem = items1[0];
+            //this whole alias thing is super jank but so be it
+            //also it doesnt work - Bkamp
 
-                if (!e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.valueOf(items[0]))) {
-                    e.getPlayer().getInventory().addItem(new ItemStack(Material.valueOf(items1[0]), Integer.parseInt(sign.getLine(3).split("/")[1])));
+            if(items[0].contains("_CONC")) {
+                if(!items[0].contains("_CONCRETE")){
+                    sellItem = items[0] + "RETE";
+                }
+            }
+
+            if(items1[0].contains("_CONC")) {
+                if(!items1[0].contains("_CONCRETE")){
+                    buyItem = items1[0] + "RETE";
+                }
+            }
+
+            if (!e.getClickedBlock().hasMetadata("heh")){
+                return;
+            }
+//            List<MetadataValue> meta = e.getClickedBlock().getMetadata("heh");
+//            StringBuffer sb = new StringBuffer("");
+//            String stringFromTheArrow;
+//            for (MetadataValue value : meta) {
+//                stringFromTheArrow = value.asString();
+//                sb.append(stringFromTheArrow);
+//            } here just incase it breaks lol
+            spawnBreak sb = new spawnBreak();
+            if (sb.isOwner(e.getClickedBlock(), e.getPlayer())) {
+
+                if (!e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.valueOf(sellItem))) {
+                    e.getPlayer().getInventory().addItem(new ItemStack(Material.valueOf(buyItem), Integer.parseInt(sign.getLine(3).split("/")[1])));
                     sign.setLine(3, sign.getLine(3).split("/")[0] + "/0");
                     sign.update();
                     e.getPlayer().sendMessage(ChatColor.GREEN + "Profits gathered");
                     return;
                 }
 
-                if (!e.getPlayer().getInventory().contains(Material.valueOf(items[0]))) {
+                if (!e.getPlayer().getInventory().contains(Material.valueOf(sellItem))) {
                     e.getPlayer().sendMessage(ChatColor.RED + "You do not have the item to add to the stock");
                     return;
                 }
 
                 for (ItemStack item : e.getPlayer().getInventory().getContents()) {
-                    if (item != null && item.getType().equals(Material.valueOf(items[0]))) {
+                    if (item != null && item.getType().equals(Material.valueOf(sellItem))) {
                         item.setAmount(item.getAmount() - 1);
                         break;
                     }
@@ -75,7 +103,7 @@ public class signs implements Listener {
             }
 
             //TODO: remove this if statement and test if it still works
-            if (!e.getPlayer().getInventory().contains(Material.valueOf(items1[0]))) {
+            if (!e.getPlayer().getInventory().contains(Material.valueOf(buyItem))) {
                 e.getPlayer().sendMessage(ChatColor.RED + "You do not have enough items to sell");
                 return;
             }
@@ -84,7 +112,7 @@ public class signs implements Listener {
             for (ItemStack item : e.getPlayer().getInventory().getContents()) {
                 int amount = Integer.parseInt(ChatColor.stripColor(sign.getLine(3)).split("/")[0]);
                 int amount2 = Integer.parseInt(ChatColor.stripColor(sign.getLine(3)).split("/")[1]);
-                if (item != null && item.getType().equals(Material.valueOf(items1[0]))) {
+                if (item != null && item.getType().equals(Material.valueOf(buyItem))) {
 
                     if (item.getAmount() < Integer.parseInt(items1[1])) {
                         e.getPlayer().sendMessage(ChatColor.RED + "You do not have enough items to sell");
@@ -105,7 +133,7 @@ public class signs implements Listener {
             }
 
 
-            e.getPlayer().getInventory().addItem(new ItemStack(Material.valueOf(items[0]), Integer.parseInt(items[1])));
+            e.getPlayer().getInventory().addItem(new ItemStack(Material.valueOf(sellItem), Integer.parseInt(items[1])));
             e.getPlayer().updateInventory();
             e.getPlayer().sendMessage(ChatColor.GREEN + "Trade successful!");
         }catch (Exception youGoofed ){

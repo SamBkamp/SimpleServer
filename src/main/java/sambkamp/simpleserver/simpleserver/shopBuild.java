@@ -46,7 +46,6 @@ public class shopBuild implements Listener {
 
             }
 
-            //TODO: make variable names less stupid
             //going across
             for (int i = 1; i < 8; i ++){
                 Location block = e.getBlock().getLocation().add(0, 0, (i*-1)-1);
