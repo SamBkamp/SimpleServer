@@ -1,5 +1,6 @@
 package sambkamp.simpleserver.simpleserver;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,6 +24,12 @@ public class shopBuild implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
+
+        try {
+            e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName();
+        } catch (Exception m){
+            Bukkit.broadcastMessage(ChatColor.YELLOW + "Block that caused the error was: " + e.getBlock().getType().toString());
+        }
 
         if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.YELLOW + "shop builder")) {
             //TODO: make this more efficient (less for loops/less lines of code)

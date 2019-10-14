@@ -19,12 +19,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class spawnBreak implements Listener {
+    SimpleServer plugin;
+
+    public spawnBreak(SimpleServer simpleserver) {
+        this.plugin = simpleserver;
+    }
+
     @EventHandler
     public void breakBlock(BlockBreakEvent e) {
+        methods m = new methods();
         int blockX = e.getBlock().getLocation().getBlockX();
         int blockY = e.getBlock().getLocation().getBlockY();
         int blockZ = e.getBlock().getLocation().getBlockZ();
-        if (blockX >= 120 && blockX <= 161 && blockZ <= -113 && blockZ >= -153) {
+        if (blockX >= -98 && blockX <= -72 && blockZ <= 94 && blockZ >= 70) {
             if (!e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage(ChatColor.RED + "you can't break spawn");
@@ -41,7 +48,7 @@ public class spawnBreak implements Listener {
             String secondItem = sign.getLine(2).split(", ")[0];
             int firstItemAmount = Integer.parseInt(sign.getLine(3).split("/")[0]);
             int secondItemAmount = Integer.parseInt(sign.getLine(3).split("/")[1]);
-            if (!isOwner(e.getBlock(), e.getPlayer())){
+            if (!m.isOwner(e.getBlock(), e.getPlayer())){
                 return;
             }
             if (firstItemAmount > 0) {
@@ -51,7 +58,9 @@ public class spawnBreak implements Listener {
                 e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), new ItemStack(Material.valueOf(secondItem), secondItemAmount));
             }
         } else if (e.getBlock().hasMetadata("heh")) {
-            if (isOwner(e.getBlock(), e.getPlayer())) {
+            if (m.isOwner(e.getBlock(), e.getPlayer())) {
+                e.getBlock().removeMetadata("heh", plugin);
+                System.out.println("Removed metadata from block: " + e.getBlock().getType().toString());
                 return;
             }
 
@@ -63,7 +72,7 @@ public class spawnBreak implements Listener {
     @EventHandler
     public void onExplode(EntityExplodeEvent e) {
         int blockX = e.getLocation().getBlockX();
-        //int blockY = e.getLocation().getBlockY();
+        // int blockY = e.getLocation().getBlockY();
         int blockZ = e.getLocation().getBlockZ();
         Block getblock = e.getLocation().getBlock();
         ArrayList<Block> fenceBlocks = new ArrayList<>();
@@ -74,7 +83,7 @@ public class spawnBreak implements Listener {
             }
         }
 
-        if (blockX >= 120 && blockX <= 161 && blockZ <= -113 && blockZ >= -153) {
+        if (blockX >= -98 && blockX <= -72 && blockZ <= 94 && blockZ >= 70) {
             e.setCancelled(true);
         } else if (e.getLocation().getBlock().hasMetadata("heh")) {
             e.setCancelled(true);
@@ -91,17 +100,5 @@ public class spawnBreak implements Listener {
                 }
             }
         }
-    }
-
-    public boolean isOwner(Block b, Player p){
-        List<MetadataValue> meta = b.getMetadata("heh");
-        StringBuffer sb = new StringBuffer("");
-        String stringFromTheArrow;
-        for (MetadataValue value : meta) {
-            stringFromTheArrow = value.asString();
-            sb.append(stringFromTheArrow);
-        }
-
-        return p.getUniqueId().toString().equals(sb.toString());
     }
 }

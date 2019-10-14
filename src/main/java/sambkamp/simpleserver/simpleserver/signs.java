@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 public class signs implements Listener {
     @EventHandler
     public void sign(PlayerInteractEvent e) {
+        methods m = new methods();
 
         try {
             e.getClickedBlock().getType();
@@ -66,8 +67,8 @@ public class signs implements Listener {
 //                stringFromTheArrow = value.asString();
 //                sb.append(stringFromTheArrow);
 //            } here just incase it breaks lol
-            spawnBreak sb = new spawnBreak();
-            if (sb.isOwner(e.getClickedBlock(), e.getPlayer())) {
+
+            if (m.isOwner(e.getClickedBlock(), e.getPlayer())) {
 
                 if (!e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.valueOf(sellItem))) {
                     e.getPlayer().getInventory().addItem(new ItemStack(Material.valueOf(buyItem), Integer.parseInt(sign.getLine(3).split("/")[1])));

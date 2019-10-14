@@ -20,3 +20,6 @@ commands:
   spawn:
     description: tps players back to spawn
     usage: /spawn
+  msg:
+    description: message board interface
+    usage: /msg <arg1> <arg2>

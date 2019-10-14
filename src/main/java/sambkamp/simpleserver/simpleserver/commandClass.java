@@ -1,5 +1,6 @@
 package sambkamp.simpleserver.simpleserver;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -7,9 +8,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.UUID;
+
 public class commandClass implements CommandExecutor {
+    public ArrayList<String> NoticeBoard = new ArrayList<>();
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) { //make switch not if
+
         if(command.getName().equalsIgnoreCase("helpme")){
             if(args.length < 1) {
                 sender.sendMessage(ChatColor.AQUA + "Welcome to Bkamp's smp server \n /helpme 1 for general rules \n /helpme 2 for help with trading posts \n /helpme 3 for help with Buy and Sell signs \n /credits for credits and source code \n /spawn to be teleported back to spawn");
@@ -33,8 +40,66 @@ public class commandClass implements CommandExecutor {
             sender.sendMessage(ChatColor.YELLOW + "sell ids: \n Iron ingot = IRON_INGOT \n Gold Ingot = GOLD_INGOT \n Diamonds = DIAMOND \n Coal = COAL \n Coal Block = COAL_BLOCK \n Bread = BREAD \n Cooked Cod = COOKED_COD \n Brewing stand = BREWING_STAND \n you get the idea");
         }else if(command.getName().equalsIgnoreCase("spawn")){
             Player player = (Player) sender;
-            Location location = new Location(player.getWorld(), 140, 68, -130);
+            Location location = new Location(Bukkit.getWorlds().get(0),  -85, 71, 82);
             player.teleport(location);
+        }else if (command.getName().equals("msg")){
+            Player player = (Player) sender;
+            if (args.length < 1){
+                sender.sendMessage(ChatColor.YELLOW + "============notice board============");
+                if (NoticeBoard.size() < 1){
+                    player.sendMessage(ChatColor.YELLOW + "Nothing here yet...");
+                    return true;
+                }
+                for (String s : NoticeBoard){
+                    UUID uid = UUID.fromString(s.split(": ")[0]);
+                    player.sendMessage(ChatColor.YELLOW + Bukkit.getServer().getPlayer(uid).getDisplayName() + ": " + s.split(": ")[1]);
+                }
+                return true;
+            }
+            switch(args[0]) {
+                case "show":
+                    sender.sendMessage(ChatColor.YELLOW + "============notice board============");
+                    if (NoticeBoard.size() < 1){
+                        player.sendMessage(ChatColor.YELLOW + "Nothing here yet...");
+                        break;
+                    }
+                    for (String s : NoticeBoard){
+                        UUID uid = UUID.fromString(s.split(": ")[0]);
+                        player.sendMessage(ChatColor.YELLOW + Bukkit.getServer().getPlayer(uid).getDisplayName() + ": " + s.split(": ")[1]);
+                    }
+
+                    break;
+                case "add":
+                    if (args.length < 2) {
+                        player.sendMessage(ChatColor.RED + "Please add the message you want to add as argument");
+                        return true;
+                    }
+                    for (String s : NoticeBoard){//NoticeBoard is an arraylist of the messages loaded from disk at startup
+                        if (s.split(": ")[0].equals(player.getUniqueId().toString())){
+                            player.sendMessage(ChatColor.RED + "you've already set a message");
+                            return true;
+                        }
+                    }
+                    String toAdd = player.getUniqueId().toString() + ": ";
+
+                    for (int i = 1; i<args.length; i++) toAdd = toAdd + args[i] + " ";
+
+                    NoticeBoard.add(toAdd);
+                    player.sendMessage(ChatColor.YELLOW + "Message Set");
+                    break;
+                case "remove":
+                    Iterator<String> iter = NoticeBoard.iterator();
+                    while (iter.hasNext()) {
+                        String str = iter.next();
+
+                        if (str.split(": ")[0].equals(player.getUniqueId().toString()))
+                            iter.remove();
+                    }
+                    player.sendMessage(ChatColor.GREEN + "Message removed");
+                    break;
+                default:
+                    player.sendMessage(ChatColor.YELLOW + "Sorry, didnt understand that command, usage: /msg [show/add/remove] <text>");
+            }
         }
         return true;
     }

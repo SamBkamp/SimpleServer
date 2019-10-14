@@ -1,6 +1,7 @@
 package sambkamp.simpleserver.simpleserver;
 
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -15,12 +16,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 public class join implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        commandClass cc = new commandClass();
         event.setJoinMessage(ChatColor.AQUA + "Welcome " + event.getPlayer().getName() + ", read the rules at /helpme");
+        event.getPlayer().sendMessage(ChatColor.YELLOW + "============notice board============");
+
         try {
             String iterator[] = getName().split("\n");
 
@@ -39,7 +44,15 @@ public class join implements Listener {
             inventory.addItem(itemStack);
 
         }catch (Exception HEH){
-            System.out.println("something went wrong with getName() in jon.java: " + HEH);
+            System.out.println("something went wrong with getName() in join.java: " + HEH);
+        }
+        if (cc.NoticeBoard.size() < 1){
+            event.getPlayer().sendMessage(ChatColor.YELLOW + "Nothing here yet...");
+            return;
+        }
+        for (String s : cc.NoticeBoard){
+            UUID uid = UUID.fromString(s.split(": ")[0]);
+            event.getPlayer().sendMessage(ChatColor.YELLOW + Bukkit.getServer().getPlayer(uid).getDisplayName() + ": " + s.split(": ")[1]);
         }
 
     }
