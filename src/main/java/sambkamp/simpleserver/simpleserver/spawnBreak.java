@@ -11,6 +11,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.MetadataValue;
@@ -28,15 +29,9 @@ public class spawnBreak implements Listener {
     @EventHandler
     public void breakBlock(BlockBreakEvent e) {
         methods m = new methods();
-        int blockX = e.getBlock().getLocation().getBlockX();
-        int blockY = e.getBlock().getLocation().getBlockY();
-        int blockZ = e.getBlock().getLocation().getBlockZ();
-        if (blockX >= -98 && blockX <= -72 && blockZ <= 94 && blockZ >= 70) {
-            if (!e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
-                e.setCancelled(true);
-                e.getPlayer().sendMessage(ChatColor.RED + "you can't break spawn");
-            }
-        } else if (e.getBlock().getType().equals(Material.OAK_SIGN) || e.getBlock().getType().equals(Material.OAK_WALL_SIGN)) {
+        if (!canInteract(e.getBlock(), e.getPlayer())) e.setCancelled(true);
+
+        if (e.getBlock().getType().equals(Material.OAK_SIGN) || e.getBlock().getType().equals(Material.OAK_WALL_SIGN)) {
             //Block sign  = e.getBlock();
             Sign sign = (Sign) e.getBlock().getState();
             String firstLine = ChatColor.stripColor(sign.getLine(0));
@@ -51,12 +46,9 @@ public class spawnBreak implements Listener {
             if (!m.isOwner(e.getBlock(), e.getPlayer())){
                 return;
             }
-            if (firstItemAmount > 0) {
-                e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), new ItemStack(Material.valueOf(firstItem), firstItemAmount));
-            }
-            if (secondItemAmount > 0) {
-                e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), new ItemStack(Material.valueOf(secondItem), secondItemAmount));
-            }
+            if (firstItemAmount > 0) e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), new ItemStack(Material.valueOf(firstItem), firstItemAmount));
+            if (secondItemAmount > 0) e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), new ItemStack(Material.valueOf(secondItem), secondItemAmount));
+
         } else if (e.getBlock().hasMetadata("heh")) {
             if (m.isOwner(e.getBlock(), e.getPlayer())) {
                 e.getBlock().removeMetadata("heh", plugin);
@@ -67,6 +59,12 @@ public class spawnBreak implements Listener {
             e.getPlayer().sendMessage(ChatColor.RED + "you can't break this shop");
             e.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void placeBlock(BlockPlaceEvent e){
+        if (!canInteract(e.getBlock(), e.getPlayer())) e.setCancelled(true);
+
     }
 
     @EventHandler
@@ -100,5 +98,14 @@ public class spawnBreak implements Listener {
                 }
             }
         }
+    }
+
+    private boolean canInteract(Block b, Player p){
+        int blockX = b.getLocation().getBlockX();
+        int blockZ = b.getLocation().getBlockZ();
+        if (blockX >= -98 && blockX <= -72 && blockZ <= 94 && blockZ >= 53) {
+            if (!p.getGameMode().equals(GameMode.CREATIVE)) return false;
+        }
+        return true;
     }
 }

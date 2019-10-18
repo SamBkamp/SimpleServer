@@ -25,7 +25,7 @@ public class commandClass implements CommandExecutor {
 
         if(command.getName().equalsIgnoreCase("helpme")){
             if(args.length < 1) {
-                sender.sendMessage(ChatColor.AQUA + "Welcome to Bkamp's smp server \n /helpme 1 for general rules \n /helpme 2 for help with trading posts \n /helpme 3 for help with Buy and Sell signs \n /credits for credits and source code \n /spawn to be teleported back to spawn");
+                sender.sendMessage(ChatColor.AQUA + "Welcome to Bkamp's smp server \n /helpme 1 for general rules \n /helpme 2 for help with trading posts \n /helpme 3 for help with Buy and Sell signs \n /credits for credits and source code \n /spawn to be teleported back to spawn \n /msg help for notice board help");
                 return true;
             } else if (args[0].equals("1")) {
                 sender.sendMessage(ChatColor.YELLOW + "This smp is similar in style to rust. So pvp is allowed in most areas (except for spawn and trading posts) \n and you can team up with other players. Trading is allowed however trading posts are encouraged");
