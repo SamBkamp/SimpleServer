@@ -103,6 +103,9 @@ public class commandClass implements CommandExecutor {
                     }
                     player.sendMessage(ChatColor.GREEN + "Message removed");
                     break;
+                case "help":
+                    player.sendMessage(ChatColor.YELLOW + "/msg [show/add/remove] <text>");
+                    break;
                 default:
                     player.sendMessage(ChatColor.YELLOW + "Sorry, didnt understand that command, usage: /msg [show/add/remove] <text>");
             }

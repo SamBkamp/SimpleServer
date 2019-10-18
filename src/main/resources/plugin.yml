@@ -22,4 +22,4 @@ commands:
     usage: /spawn
   msg:
     description: message board interface
-    usage: /msg <arg1> <arg2>
+    usage: /msg [add|remove|show]
