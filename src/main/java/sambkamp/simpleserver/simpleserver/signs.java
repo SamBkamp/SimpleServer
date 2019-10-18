@@ -83,14 +83,10 @@ public class signs implements Listener {
                     return;
                 }
 
-                for (ItemStack item : e.getPlayer().getInventory().getContents()) {
-                    if (item != null && item.getType().equals(Material.valueOf(sellItem))) {
-                        item.setAmount(item.getAmount() - 1);
-                        break;
-                    }
-                }
+                int amountToAdd  = e.getPlayer().getInventory().getItemInMainHand().getAmount();
+                e.getPlayer().getInventory().getItemInMainHand().setAmount(0);
                 int amount = Integer.parseInt(ChatColor.stripColor(sign.getLine(3).split("/")[0]));
-                amount++;
+                amount = amount + amountToAdd;
                 sign.setLine(3, Integer.toString(amount) + "/" + sign.getLine(3).split("/")[1]);
                 sign.update();
                 e.getPlayer().sendMessage(ChatColor.GREEN + "Stock added! ");
