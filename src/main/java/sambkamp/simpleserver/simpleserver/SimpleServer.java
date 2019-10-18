@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class SimpleServer extends JavaPlugin {
 
     join join = new join();
-    commandClass commandClass = new commandClass();
+    commandClass commandClass = new commandClass(true);
 
     @Override
     public void onEnable() {

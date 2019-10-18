@@ -13,7 +13,13 @@ import java.util.Iterator;
 import java.util.UUID;
 
 public class commandClass implements CommandExecutor {
-    public ArrayList<String> NoticeBoard = new ArrayList<>();
+    public ArrayList<String> NoticeBoard;
+    public commandClass(boolean createnew){
+        if(createnew){
+            NoticeBoard = new ArrayList<>();
+        }
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) { //make switch not if
 
