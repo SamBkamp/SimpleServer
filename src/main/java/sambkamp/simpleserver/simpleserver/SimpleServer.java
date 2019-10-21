@@ -61,9 +61,7 @@ public class SimpleServer extends JavaPlugin {
         try {
             if (!new String(Files.readAllBytes(Paths.get("SimpleServer/msg.txt"))).equals("")){
                 String loadedMsg = new String(Files.readAllBytes(Paths.get("SimpleServer/msg.txt")));
-                for (String s : loadedMsg.split("\n")){
-                    commandClass.NoticeBoard.add(s);
-                }//try .addAll method without foreach loop
+                for (String s : loadedMsg.split("\n")) commandClass.NoticeBoard.add(s);//try .addAll method without foreach loop
             }
             System.out.println("[SimpleServer] Messages loaded");
         } catch (IOException e) {
@@ -108,7 +106,7 @@ public class SimpleServer extends JavaPlugin {
             Block block = Bukkit.getWorld("world").getBlockAt(Integer.parseInt(cordio[1]), Integer.parseInt(cordio[2]), cleanlastcoord);
 
 
-            if (block.getType().equals(Material.AIR)){ //deletes empty blocks from the save file to save space.
+            if (block.getType().equals(Material.AIR)){ //deletes empty blocks from the save file to save space. Doesnt actually work, only removes from the array not the actual file lol.
                 iterator[i] = "";
                 blocksRemoved++;
                 continue;

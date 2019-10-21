@@ -60,13 +60,6 @@ public class signs implements Listener {
             if (!e.getClickedBlock().hasMetadata("heh")){
                 return;
             }
-//            List<MetadataValue> meta = e.getClickedBlock().getMetadata("heh");
-//            StringBuffer sb = new StringBuffer("");
-//            String stringFromTheArrow;
-//            for (MetadataValue value : meta) {
-//                stringFromTheArrow = value.asString();
-//                sb.append(stringFromTheArrow);
-//            } here just incase it breaks lol
 
             if (m.isOwner(e.getClickedBlock(), e.getPlayer())) {
 
