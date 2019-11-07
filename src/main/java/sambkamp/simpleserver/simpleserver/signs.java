@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 public class signs implements Listener {
     @EventHandler
     public void sign(PlayerInteractEvent e) {
+        methods m = new methods();
 
         try {
             e.getClickedBlock().getType();
@@ -59,15 +60,8 @@ public class signs implements Listener {
             if (!e.getClickedBlock().hasMetadata("heh")){
                 return;
             }
-//            List<MetadataValue> meta = e.getClickedBlock().getMetadata("heh");
-//            StringBuffer sb = new StringBuffer("");
-//            String stringFromTheArrow;
-//            for (MetadataValue value : meta) {
-//                stringFromTheArrow = value.asString();
-//                sb.append(stringFromTheArrow);
-//            } here just incase it breaks lol
-            spawnBreak sb = new spawnBreak();
-            if (sb.isOwner(e.getClickedBlock(), e.getPlayer())) {
+
+            if (m.isOwner(e.getClickedBlock(), e.getPlayer())) {
 
                 if (!e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.valueOf(sellItem))) {
                     e.getPlayer().getInventory().addItem(new ItemStack(Material.valueOf(buyItem), Integer.parseInt(sign.getLine(3).split("/")[1])));
@@ -82,14 +76,10 @@ public class signs implements Listener {
                     return;
                 }
 
-                for (ItemStack item : e.getPlayer().getInventory().getContents()) {
-                    if (item != null && item.getType().equals(Material.valueOf(sellItem))) {
-                        item.setAmount(item.getAmount() - 1);
-                        break;
-                    }
-                }
+                int amountToAdd  = e.getPlayer().getInventory().getItemInMainHand().getAmount();
+                e.getPlayer().getInventory().getItemInMainHand().setAmount(0);
                 int amount = Integer.parseInt(ChatColor.stripColor(sign.getLine(3).split("/")[0]));
-                amount++;
+                amount = amount + amountToAdd;
                 sign.setLine(3, Integer.toString(amount) + "/" + sign.getLine(3).split("/")[1]);
                 sign.update();
                 e.getPlayer().sendMessage(ChatColor.GREEN + "Stock added! ");
