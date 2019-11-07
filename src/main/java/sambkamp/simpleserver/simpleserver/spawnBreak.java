@@ -29,7 +29,7 @@ public class spawnBreak implements Listener {
     @EventHandler
     public void breakBlock(BlockBreakEvent e) {
         methods m = new methods();
-        if (!canInteract(e.getBlock(), e.getPlayer())) e.setCancelled(true);
+        if (!m.canInteract(e.getBlock(), e.getPlayer())) e.setCancelled(true);
 
         if (e.getBlock().getType().equals(Material.OAK_SIGN) || e.getBlock().getType().equals(Material.OAK_WALL_SIGN)) {
             //Block sign  = e.getBlock();
@@ -44,6 +44,7 @@ public class spawnBreak implements Listener {
             int firstItemAmount = Integer.parseInt(sign.getLine(3).split("/")[0]);
             int secondItemAmount = Integer.parseInt(sign.getLine(3).split("/")[1]);
             if (!m.isOwner(e.getBlock(), e.getPlayer())){
+                e.setCancelled(true);
                 return;
             }
             if (firstItemAmount > 0) e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), new ItemStack(Material.valueOf(firstItem), firstItemAmount));
@@ -61,11 +62,6 @@ public class spawnBreak implements Listener {
         }
     }
 
-    @EventHandler
-    public void placeBlock(BlockPlaceEvent e){
-        if (!canInteract(e.getBlock(), e.getPlayer())) e.setCancelled(true);
-
-    }
 
     @EventHandler
     public void onExplode(EntityExplodeEvent e) {
@@ -98,14 +94,5 @@ public class spawnBreak implements Listener {
                 }
             }
         }
-    }
-
-    private boolean canInteract(Block b, Player p){
-        int blockX = b.getLocation().getBlockX();
-        int blockZ = b.getLocation().getBlockZ();
-        if (blockX >= -98 && blockX <= -72 && blockZ <= 94 && blockZ >= 53) {
-            if (!p.getGameMode().equals(GameMode.CREATIVE)) return false;
-        }
-        return true;
     }
 }

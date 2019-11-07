@@ -30,6 +30,11 @@ public class shopBuild implements Listener {
         } catch (Exception m){
             Bukkit.broadcastMessage(ChatColor.YELLOW + "Block that caused the error was: " + e.getBlock().getType().toString());
         }
+        methods m = new methods();
+        if (!m.canInteract(e.getBlock(), e.getPlayer())) {
+            e.setCancelled(true);
+            return;
+        }
 
         if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.YELLOW + "shop builder")) {
             //TODO: make this more efficient (less for loops/less lines of code)
