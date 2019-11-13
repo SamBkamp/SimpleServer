@@ -14,6 +14,7 @@ public class SimpleServer extends JavaPlugin {
 
     join join = new join();
     commandClass commandClass = new commandClass(true);
+    spawnEffects sp = new spawnEffects();
 
     @Override
     public void onEnable() {
@@ -24,6 +25,7 @@ public class SimpleServer extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new spawnBreak(this), this);
         getServer().getPluginManager().registerEvents(new signs(), this);
         getServer().getPluginManager().registerEvents(new signColor(this), this);
+        getServer().getPluginManager().registerEvent(new spawnEffects(), this);
         System.out.println("[SimpleServer] listeners loaded");
         this.getCommand("helpme").setExecutor(commandClass);
         this.getCommand("makeshop").setExecutor(commandClass);

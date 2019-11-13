@@ -1,12 +1,15 @@
 package sambkamp.simpleserver.simpleserver;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
+import org.bukkit.Material;
 
 public class signs implements Listener {
     @EventHandler
@@ -17,6 +20,15 @@ public class signs implements Listener {
             e.getClickedBlock().getType();
         } catch ( Exception E ) {
             return;
+        }
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Material T = e.getClickedBlock().getType();
+            if (T.toString().endsWith("STAIRS") && !e.getPlayer().isSneaking()) {
+                Vector v = new Vector(0,0,0);
+                Location l = new Location(e.getClickedBlock().getWorld(), e.getClickedBlock().getX() + 0.5, e.getClickedBlock().getY(), e.getClickedBlock().getZ() + 0.5);
+                Arrow a = e.getClickedBlock().getWorld().spawnArrow(l, v, 0, 0);
+                a.setPassenger(e.getPlayer());
+            }
         }
 
         if (e.getClickedBlock().getType().equals(Material.OAK_SIGN) || e.getClickedBlock().getType().equals(Material.OAK_WALL_SIGN)) {
