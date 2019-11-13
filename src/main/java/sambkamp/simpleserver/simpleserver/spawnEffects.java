@@ -5,11 +5,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
 
-//-85, 71, 82
 public class spawnEffects implements Listener {
-
     @EventHandler
     public void playerMovement(PlayerMoveEvent e){
         int playerx = (int)e.getPlayer().getLocation().getX();
