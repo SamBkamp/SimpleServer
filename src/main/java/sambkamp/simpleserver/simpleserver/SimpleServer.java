@@ -19,13 +19,13 @@ public class SimpleServer extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        System.out.println("[SimpleServer] plug-in started");
+        System.out.println("[SimpleServer] SimpleServer v0.9.2");
         getServer().getPluginManager().registerEvents(join, this);
         getServer().getPluginManager().registerEvents(new shopBuild(this), this);
         getServer().getPluginManager().registerEvents(new spawnBreak(this), this);
-        getServer().getPluginManager().registerEvents(new signs(), this);
+        getServer().getPluginManager().registerEvents(new signs(this), this);
         getServer().getPluginManager().registerEvents(new signColor(this), this);
-        getServer().getPluginManager().registerEvent(new spawnEffects(), this);
+        getServer().getPluginManager().registerEvents(new spawnEffects(), this);
         System.out.println("[SimpleServer] listeners loaded");
         this.getCommand("helpme").setExecutor(commandClass);
         this.getCommand("makeshop").setExecutor(commandClass);
@@ -33,6 +33,7 @@ public class SimpleServer extends JavaPlugin {
         this.getCommand("credits").setExecutor(commandClass);
         this.getCommand("spawn").setExecutor(commandClass);
         this.getCommand("msg").setExecutor(commandClass);
+        this.getCommand("shopwand").setExecutor(commandClass);
 
         Path rootFolder =  Paths.get("SimpleServer/");
 
@@ -71,7 +72,7 @@ public class SimpleServer extends JavaPlugin {
         }
 
 
-        System.out.println("[SimpleServer] Fully loaded");
+        System.out.println("[SimpleServer] SimpleServer v0.9.2 fully loaded");
     }
 
 
@@ -108,14 +109,10 @@ public class SimpleServer extends JavaPlugin {
             Block block = Bukkit.getWorld("world").getBlockAt(Integer.parseInt(cordio[1]), Integer.parseInt(cordio[2]), cleanlastcoord);
 
 
-            if (block.getType().equals(Material.AIR)){ //deletes empty blocks from the save file to save space. Doesnt actually work, only removes from the array not the actual file lol.
-                iterator[i] = "";
-                blocksRemoved++;
-                continue;
+            if(block.getType().equals(Material.OAK_FENCE) || block.getType().equals(Material.SMOOTH_STONE_SLAB) || block.getType().equals(Material.SPRUCE_PLANKS) || block.getType().equals(Material.GLASS) || block.getType().equals(Material.BIRCH_PLANKS) || block.getType().equals(Material.OAK_SIGN)){
+                block.setMetadata("heh", new FixedMetadataValue(this, cordio[0]));
             }
 
-
-            block.setMetadata("heh", new FixedMetadataValue(this, cordio[0]));
         }
         System.out.println(blocksRemoved);
 

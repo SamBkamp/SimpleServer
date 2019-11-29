@@ -23,3 +23,6 @@ commands:
   msg:
     description: message board interface
     usage: /msg [add|remove|show]
+  shopwand:
+    description: anti shop wand
+    usage: /msg

@@ -1,12 +1,12 @@
 package sambkamp.simpleserver.simpleserver;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,7 +21,7 @@ public class commandClass implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) { //make switch not if
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) { //make switch not make switch not if make switch not if make switch not if make switch not if make switch not if
 
         if(command.getName().equalsIgnoreCase("helpme")){
             if(args.length < 1) {
@@ -108,6 +108,15 @@ public class commandClass implements CommandExecutor {
                     break;
                 default:
                     player.sendMessage(ChatColor.YELLOW + "Sorry, didnt understand that command, usage: /msg [show/add/remove] <text>");
+            }
+        } else if (command.getName().equals("shopwand")) {
+            Player p = (Player) sender;
+            if (p.getGameMode().equals(GameMode.CREATIVE)){
+                ItemStack itemStack = new ItemStack(Material.STICK, 1);
+                ItemMeta meta = itemStack.getItemMeta();
+                meta.setDisplayName(ChatColor.YELLOW + "ShopAway\u2122");
+                itemStack.setItemMeta(meta);
+                p.getInventory().addItem(itemStack);
             }
         }
         return true;

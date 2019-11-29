@@ -12,6 +12,12 @@ import org.bukkit.util.Vector;
 import org.bukkit.Material;
 
 public class signs implements Listener {
+    SimpleServer plugin;
+
+    public signs(SimpleServer simpleserver) {
+        this.plugin = simpleserver;
+    }
+
     @EventHandler
     public void sign(PlayerInteractEvent e) {
         methods m = new methods();
@@ -21,6 +27,16 @@ public class signs implements Listener {
         } catch ( Exception E ) {
             return;
         }
+        try {
+            if (e.getItem().getType().equals(Material.STICK) && e.getItem().getItemMeta().getDisplayName().equals(ChatColor.YELLOW + "ShopAway\u2122")){
+                if (e.getClickedBlock().hasMetadata("heh")){
+                    e.getClickedBlock().removeMetadata("heh", plugin);
+                    e.getPlayer().sendMessage(ChatColor.GREEN + "removed shop block");
+                }
+                e.setCancelled(true);
+            }
+        } catch (Exception ex){}
+
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Material T = e.getClickedBlock().getType();
             if (T.toString().endsWith("STAIRS") && !e.getPlayer().isSneaking()) {
@@ -31,7 +47,7 @@ public class signs implements Listener {
             }
         }
 
-        if (e.getClickedBlock().getType().equals(Material.OAK_SIGN) || e.getClickedBlock().getType().equals(Material.OAK_WALL_SIGN)) {
+        if (e.getClickedBlock().getType().toString().endsWith("_SIGN")) {
         } else {
             return;
         }
@@ -142,6 +158,7 @@ public class signs implements Listener {
             e.getPlayer().sendMessage(ChatColor.RED + "Something is incorrectly formatted on this sign");
             System.out.println("[SIMPLESERVER] Error at signs.java: " + youGoofed);
         }
+
     }
 }
 

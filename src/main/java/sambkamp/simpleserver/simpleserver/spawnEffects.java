@@ -12,9 +12,9 @@ public class spawnEffects implements Listener {
         int playerx = (int)e.getPlayer().getLocation().getX();
         int playery = (int)e.getPlayer().getLocation().getY();
         int playerz = (int)e.getPlayer().getLocation().getZ();
-        if(playerx <= -15 && playerx >= -155 && playery >= 1 && playery <= 141){
-            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 1000, 2));
-            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1000,1));
+        if(playerx <= -15 && playerx >= -155 && playerz >= -20 && playerz <= 141){
+            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 1000, 1));
+            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 1000,1));
             e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 1000, 2));
 
         }

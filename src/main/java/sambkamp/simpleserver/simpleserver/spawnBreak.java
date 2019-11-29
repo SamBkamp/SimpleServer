@@ -31,7 +31,7 @@ public class spawnBreak implements Listener {
         methods m = new methods();
         if (!m.canInteract(e.getBlock(), e.getPlayer())) e.setCancelled(true);
 
-        if (e.getBlock().getType().equals(Material.OAK_SIGN) || e.getBlock().getType().equals(Material.OAK_WALL_SIGN)) {
+        if (e.getBlock().getType().toString().endsWith("_SIGN")) {
             //Block sign  = e.getBlock();
             Sign sign = (Sign) e.getBlock().getState();
             String firstLine = ChatColor.stripColor(sign.getLine(0));
@@ -72,7 +72,7 @@ public class spawnBreak implements Listener {
         ArrayList<Block> fenceBlocks = new ArrayList<>();
 
         for (int i=0; i < e.blockList().size(); i++){
-            if (e.blockList().get(i).getType().equals(Material.OAK_SIGN) || e.blockList().get(i).getType().equals(Material.OAK_WALL_SIGN)){
+            if (e.blockList().get(i).getType().toString().endsWith("_SIGN")){
                 fenceBlocks.add(e.blockList().get(i));
             }
         }
