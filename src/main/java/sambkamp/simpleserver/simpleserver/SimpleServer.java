@@ -1,8 +1,10 @@
 package sambkamp.simpleserver.simpleserver;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -85,6 +87,7 @@ public class SimpleServer extends JavaPlugin {
             for (String s : commandClass.NoticeBoard){
                 fw.write(s);
             }
+            fw.flush();
             fw.close();
             System.out.println("[SimpleServer] Saved messages to disk");
         }catch (Exception e){
@@ -105,7 +108,7 @@ public class SimpleServer extends JavaPlugin {
         for (int i = 0; i < iterator.length; i++){
             String coords = iterator[i].split("\n")[0];
             String[] cordio = coords.split(",");
-            int cleanlastcoord = Integer.parseInt(cordio[3].replaceAll("\\r", "")); //hacked together
+            int cleanlastcoord = Integer.parseInt(cordio[3].replaceAll("\\r", "")); //fixed bug where a \r would be appended after migrate to java 11
             Block block = Bukkit.getWorld("world").getBlockAt(Integer.parseInt(cordio[1]), Integer.parseInt(cordio[2]), cleanlastcoord);
 
 

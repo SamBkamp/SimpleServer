@@ -54,7 +54,7 @@ public class join implements Listener {
             String contents = new String(Files.readAllBytes(Paths.get("SimpleServer/players.txt")));
             String jsonText = contents + uuid + "\n";
 
-            //TODO: make this more efficient by not creating a new file every time. See shopBuild.java (290,15)
+            //TODO: make this more efficient by not creating a new file every time.
 
             BufferedWriter writer = new BufferedWriter(new FileWriter("SimpleServer/players.txt"));
             writer.write(jsonText);

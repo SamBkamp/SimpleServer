@@ -59,7 +59,6 @@ public class signs implements Listener {
             if (!amp.equalsIgnoreCase("[Trade]")) {
                 return;
             }
-
             String string = ChatColor.stripColor(sign.getLine(1));
             String[] items = string.split(", ");
             String string2 = ChatColor.stripColor(sign.getLine(2));
@@ -73,17 +72,6 @@ public class signs implements Listener {
             //this whole alias thing is super jank but so be it
             //also it doesnt work - Bkamp
 
-            if(items[0].contains("_CONC")) {
-                if(!items[0].contains("_CONCRETE")){
-                    sellItem = items[0] + "RETE";
-                }
-            }
-
-            if(items1[0].contains("_CONC")) {
-                if(!items1[0].contains("_CONCRETE")){
-                    buyItem = items1[0] + "RETE";
-                }
-            }
 
             if (!e.getClickedBlock().hasMetadata("heh")){
                 return;
