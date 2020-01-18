@@ -1,24 +1,53 @@
 package sambkamp.simpleserver.simpleserver;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
+import org.bukkit.Material;
 
 public class signs implements Listener {
+    SimpleServer plugin;
+
+    public signs(SimpleServer simpleserver) {
+        this.plugin = simpleserver;
+    }
+
     @EventHandler
     public void sign(PlayerInteractEvent e) {
+        methods m = new methods();
 
         try {
             e.getClickedBlock().getType();
         } catch ( Exception E ) {
             return;
         }
+        try {
+            if (e.getItem().getType().equals(Material.STICK) && e.getItem().getItemMeta().getDisplayName().equals(ChatColor.YELLOW + "ShopAway\u2122")){
+                if (e.getClickedBlock().hasMetadata("heh")){
+                    e.getClickedBlock().removeMetadata("heh", plugin);
+                    e.getPlayer().sendMessage(ChatColor.GREEN + "removed shop block");
+                }
+                e.setCancelled(true);
+            }
+        } catch (Exception ex){}
 
-        if (e.getClickedBlock().getType().equals(Material.OAK_SIGN) || e.getClickedBlock().getType().equals(Material.OAK_WALL_SIGN)) {
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Material T = e.getClickedBlock().getType();
+            if (T.toString().endsWith("STAIRS") && !e.getPlayer().isSneaking()) {
+                Vector v = new Vector(0,0,0);
+                Location l = new Location(e.getClickedBlock().getWorld(), e.getClickedBlock().getX() + 0.5, e.getClickedBlock().getY(), e.getClickedBlock().getZ() + 0.5);
+                Arrow a = e.getClickedBlock().getWorld().spawnArrow(l, v, 0, 0);
+                a.setPassenger(e.getPlayer());
+            }
+        }
+
+        if (e.getClickedBlock().getType().toString().endsWith("_SIGN")) {
         } else {
             return;
         }
@@ -30,7 +59,6 @@ public class signs implements Listener {
             if (!amp.equalsIgnoreCase("[Trade]")) {
                 return;
             }
-
             String string = ChatColor.stripColor(sign.getLine(1));
             String[] items = string.split(", ");
             String string2 = ChatColor.stripColor(sign.getLine(2));
@@ -44,30 +72,12 @@ public class signs implements Listener {
             //this whole alias thing is super jank but so be it
             //also it doesnt work - Bkamp
 
-            if(items[0].contains("_CONC")) {
-                if(!items[0].contains("_CONCRETE")){
-                    sellItem = items[0] + "RETE";
-                }
-            }
-
-            if(items1[0].contains("_CONC")) {
-                if(!items1[0].contains("_CONCRETE")){
-                    buyItem = items1[0] + "RETE";
-                }
-            }
 
             if (!e.getClickedBlock().hasMetadata("heh")){
                 return;
             }
-//            List<MetadataValue> meta = e.getClickedBlock().getMetadata("heh");
-//            StringBuffer sb = new StringBuffer("");
-//            String stringFromTheArrow;
-//            for (MetadataValue value : meta) {
-//                stringFromTheArrow = value.asString();
-//                sb.append(stringFromTheArrow);
-//            } here just incase it breaks lol
-            spawnBreak sb = new spawnBreak();
-            if (sb.isOwner(e.getClickedBlock(), e.getPlayer())) {
+
+            if (m.isOwner(e.getClickedBlock(), e.getPlayer())) {
 
                 if (!e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.valueOf(sellItem))) {
                     e.getPlayer().getInventory().addItem(new ItemStack(Material.valueOf(buyItem), Integer.parseInt(sign.getLine(3).split("/")[1])));
@@ -82,14 +92,10 @@ public class signs implements Listener {
                     return;
                 }
 
-                for (ItemStack item : e.getPlayer().getInventory().getContents()) {
-                    if (item != null && item.getType().equals(Material.valueOf(sellItem))) {
-                        item.setAmount(item.getAmount() - 1);
-                        break;
-                    }
-                }
+                int amountToAdd  = e.getPlayer().getInventory().getItemInMainHand().getAmount();
+                e.getPlayer().getInventory().getItemInMainHand().setAmount(0);
                 int amount = Integer.parseInt(ChatColor.stripColor(sign.getLine(3).split("/")[0]));
-                amount++;
+                amount = amount + amountToAdd;
                 sign.setLine(3, Integer.toString(amount) + "/" + sign.getLine(3).split("/")[1]);
                 sign.update();
                 e.getPlayer().sendMessage(ChatColor.GREEN + "Stock added! ");
@@ -140,6 +146,7 @@ public class signs implements Listener {
             e.getPlayer().sendMessage(ChatColor.RED + "Something is incorrectly formatted on this sign");
             System.out.println("[SIMPLESERVER] Error at signs.java: " + youGoofed);
         }
+
     }
 }
 

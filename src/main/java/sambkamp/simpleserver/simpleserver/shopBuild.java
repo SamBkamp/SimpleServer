@@ -1,5 +1,6 @@
 package sambkamp.simpleserver.simpleserver;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -7,7 +8,10 @@ import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -23,6 +27,17 @@ public class shopBuild implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
+
+        try {
+            e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName();
+        } catch (Exception m){
+            Bukkit.broadcastMessage(ChatColor.YELLOW + "Block that caused the error was: " + e.getBlock().getType().toString());
+        }
+        methods m = new methods();
+        if (!m.canInteract(e.getBlock(), e.getPlayer())) {
+            e.setCancelled(true);
+            return;
+        }
 
         if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.YELLOW + "shop builder")) {
             //TODO: make this more efficient (less for loops/less lines of code)
@@ -263,7 +278,6 @@ public class shopBuild implements Listener {
             block.getBlock().setMetadata("heh", new FixedMetadataValue(plugin, e.getPlayer().getUniqueId().toString()));
         }
     }
-
     public void toJson(String uuid, int startZ, int startX, int startY) {
 
 

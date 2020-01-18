@@ -1,0 +1,22 @@
+package sambkamp.simpleserver.simpleserver;
+
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+public class spawnEffects implements Listener {
+    @EventHandler
+    public void playerMovement(PlayerMoveEvent e){
+        int playerx = (int)e.getPlayer().getLocation().getX();
+        int playery = (int)e.getPlayer().getLocation().getY();
+        int playerz = (int)e.getPlayer().getLocation().getZ();
+        if(playerx <= -15 && playerx >= -155 && playerz >= -20 && playerz <= 141){
+            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 1000, 1));
+            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 1000,1));
+            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 1000, 2));
+
+        }
+    }
+}
